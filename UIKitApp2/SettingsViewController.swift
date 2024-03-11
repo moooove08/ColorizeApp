@@ -16,6 +16,7 @@ class ViewController: UIViewController {
     let labelRed = UILabel()
     let labelGreen = UILabel()
     let labelBlue = UILabel()
+    let button = UIButton(type: .system)
         
     
     
@@ -43,7 +44,7 @@ class ViewController: UIViewController {
         sliderRed.maximumTrackTintColor = .black
         sliderRed.thumbTintColor = .yellow
         view.addSubview(sliderRed)
-        sliderRed.addTarget(self, action: #selector(changeRed), for: .valueChanged)
+        sliderRed.addTarget(self, action: #selector(change), for: .valueChanged)
         
         labelRed.text = "Red color"
         labelRed.textAlignment = .center
@@ -62,7 +63,7 @@ class ViewController: UIViewController {
         sliderGreen.maximumTrackTintColor = .black
         sliderGreen.thumbTintColor = .yellow
         view.addSubview(sliderGreen)
-        sliderGreen.addTarget(self, action: #selector(changeGreen), for: .valueChanged)
+        sliderGreen.addTarget(self, action: #selector(change), for: .valueChanged)
         
         labelGreen.text = "Green color"
         labelGreen.textAlignment = .center
@@ -82,7 +83,7 @@ class ViewController: UIViewController {
         sliderBlue.maximumTrackTintColor = .black
         sliderBlue.thumbTintColor = .yellow
         view.addSubview(sliderBlue)
-        sliderBlue.addTarget(self, action: #selector(changeBlue), for: .valueChanged)
+        sliderBlue.addTarget(self, action: #selector(change), for: .valueChanged)
         
         labelBlue.text = "Blue color"
         labelBlue.textAlignment = .center
@@ -93,29 +94,45 @@ class ViewController: UIViewController {
         labelBlue.textColor = .black
         view.addSubview(labelBlue)
         
+        button.addTarget(self, action: #selector(dorandom), for: .touchUpInside)
+       
+        button.frame = CGRect(x: view1.center.x - 50, y: 750, width: 100, height: 50)
+        button.setTitle("Random", for: .normal)
+        button.setTitleColor(.red, for: .normal)
+        button.layer.cornerRadius = 10
+        button.backgroundColor = #colorLiteral(red: 0.4745098054, green: 0.8392156959, blue: 0.9764705896, alpha: 1)
+        view.addSubview(button)
+    }
+    @objc func dorandom() {
+        var red:CGFloat = 0
+        var green:CGFloat = 0
+        var blue:CGFloat = 0
+        var alpha:CGFloat = 0
+        view1.backgroundColor = UIColor(red: CGFloat.random(in: 0...1), green: CGFloat.random(in: 0...1), blue: CGFloat.random(in: 0...1), alpha: 1)
+        view1.backgroundColor?.getRed(&red, green: &green, blue: &blue, alpha: &alpha)
+        sliderRed.value = Float(red) * 255
+        sliderBlue.value = Float(blue) * 255
+        sliderGreen.value = Float(green) * 255
+        tintColor()
+        view.backgroundColor = UIColor(red: CGFloat.random(in: 0...1), green: CGFloat.random(in: 0...1), blue: CGFloat.random(in: 0...1), alpha: 1)
+    }
+    @objc func change(sender: UISlider) {
+        changeColor()
+        tintColor()
+    }
+    private func changeColor() {
+        view1.backgroundColor = UIColor(red: CGFloat(sliderRed.value/255), green: CGFloat(sliderGreen.value/255), blue: CGFloat(sliderBlue.value/255), alpha: 1)
         
     }
-    @objc func changeRed(sender: UISlider) {
-        if sender == sliderRed {
-            view1.backgroundColor = UIColor(red: CGFloat(sliderRed.value/255), green: CGFloat(sliderGreen.value/255), blue: CGFloat(sliderBlue.value/255), alpha: 1)
-            sliderRed.minimumTrackTintColor = UIColor(red: CGFloat(sliderRed.value/255), green: 0/255, blue: 0/255, alpha: 1)
-            sliderRed.maximumTrackTintColor = UIColor(red: CGFloat(sliderRed.value/255), green: 0/255, blue: 0/255, alpha: 1)
-           
-        }
+    private func tintColor() {
+        sliderBlue.minimumTrackTintColor = UIColor(red: 0/255, green: 0/255, blue: CGFloat(sliderBlue.value/255), alpha: 1)
+        sliderBlue.maximumTrackTintColor = UIColor(red: 0/255, green: 0/255, blue: CGFloat(sliderBlue.value/255), alpha: 1)
+        sliderGreen.minimumTrackTintColor = UIColor(red: 0/255, green: CGFloat(sliderGreen.value/255), blue: 0/255, alpha: 1)
+        sliderGreen.maximumTrackTintColor = UIColor(red: 0/255, green: CGFloat(sliderGreen.value/255), blue: 0/255, alpha: 1)
+        sliderRed.minimumTrackTintColor = UIColor(red: CGFloat(sliderRed.value/255), green: 0/255, blue: 0/255, alpha: 1)
+        sliderRed.maximumTrackTintColor = UIColor(red: CGFloat(sliderRed.value/255), green: 0/255, blue: 0/255, alpha: 1)
     }
-    @objc func changeGreen(sender: UISlider) {
-        if sender == sliderGreen {
-            view1.backgroundColor = UIColor(red: CGFloat(sliderRed.value/255), green: CGFloat(sliderGreen.value/255), blue: CGFloat(sliderBlue.value/255), alpha: 1)
-            sliderGreen.minimumTrackTintColor = UIColor(red: 0/255, green: CGFloat(sliderGreen.value/255), blue: 0/255, alpha: 1)
-            sliderGreen.maximumTrackTintColor = UIColor(red: 0/255, green: CGFloat(sliderGreen.value/255), blue: 0/255, alpha: 1)
-        }
-    }
-    @objc func changeBlue(sender: UISlider) {
-        if sender == sliderBlue {
-            view1.backgroundColor = UIColor(red: CGFloat(sliderRed.value/255), green: CGFloat(sliderGreen.value/255), blue: CGFloat(sliderBlue.value/255), alpha: 1)
-            sliderBlue.minimumTrackTintColor = UIColor(red: 0/255, green: 0/255, blue: CGFloat(sliderBlue.value/255), alpha: 1)
-            sliderBlue.maximumTrackTintColor = UIColor(red: 0/255, green: 0/255, blue: CGFloat(sliderBlue.value/255), alpha: 1)
-        }
-    }
+    
 }
+
 
